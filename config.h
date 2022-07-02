@@ -144,8 +144,8 @@ static Key keys[] = {
 //	{ MODKEY|ControlMask,	XK_m,			spawn,		{.v = setcolemakcmd } },
 	{ MODKEY,		XK_n,			setlayout,	{.v = &layouts[0]} },
 	{ MODKEY,		XK_m,			setlayout,	{.v = &layouts[1]} },
-	{ MODKEY,		XK_f,			setlayout,	{.v = &layouts[2]} },
-	{ MODKEY,       XK_b,                    fullscreen,     {0} },
+	{ MODKEY,		XK_b,			setlayout,	{.v = &layouts[2]} },
+	{ MODKEY,       XK_f,                    fullscreen,     {0} },
 //	{ MODKEY,              XK_space,                setlayout,      {0} },
 //	{ MODKEY|ShiftMask,    XK_space,                togglefloating, {0} },		//
 //	{ MODKEY,              XK_apostrophe,           togglescratch,  {.v = scratchpadcmd } },
