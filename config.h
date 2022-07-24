@@ -66,7 +66,7 @@ static const Layout layouts[] = {
 //	{ "Tile",      tile },    /* first entry is default */
 //	{ "><>",      NULL },    /* no layout function means floating behavior */
 //	{ "[M]",      monocle },
-	{ "()",      tile },    /* first entry is default */
+	{ "][",      tile },    /* first entry is default */
 	{ "><",      NULL },    /* no layout function means floating behavior */
 	{ "[]",      monocle },
 };
@@ -119,8 +119,8 @@ static Key keys[] = {
 //	{ MODKEY,                       XK_bracketright,	spawn,                {.v = upvol   } },
 	{ MODKEY,	                    XF86XK_Phone,       spawn,                {.v = screenkeytoggle } },
 //	{ Mod1Mask,		                XF86XK_Phone,       spawn,                {.v = wpcmd } },
-	{ Mod1Mask,		                XF86XK_Phone,       spawn,                {.v = resolution1 } },
-	{ Mod1Mask|ShiftMask,		    XF86XK_Phone,       spawn,                {.v = resolution2 } },
+	{ MODKEY|ControlMask,		                XF86XK_Phone,       spawn,                {.v = resolution1 } },
+	{ MODKEY|ShiftMask,		    XF86XK_Phone,       spawn,                {.v = resolution2 } },
 	{ 0,			                XK_Print,           spawn,	    	      {.v = screenshotcmd } },
 	{ MODKEY|ShiftMask,	            XK_w,			    rotatestack,	      {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_s,			    rotatestack,	      {.i = -1 } },
