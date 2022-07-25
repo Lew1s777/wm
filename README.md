@@ -4,7 +4,7 @@ My build of dwm(TL,DR)
 
 dwm is an extremely fast, small, and dynamic window manager for X.
 
-This repo is my build of dwm.
+This is my build of dwm.
 
 This repo is kind of out of dated,I will update my dwm to 6.3 and upload the new build thesedays.(maybe)
 
