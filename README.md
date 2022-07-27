@@ -71,5 +71,3 @@ done &
 exec dwm
 ```
 or you can whrite a loop script and lauch it at start(that what i did)
-
-[further leaning](https://wiki.archlinux.org/title/Dwm#Statusbar_configuration)
