@@ -1059,6 +1059,7 @@ focusmon(const Arg *arg)
 	focus(NULL);
 }
 
+
 void
 focusstack(const Arg *arg)
 {
@@ -1075,7 +1076,8 @@ focusstack(const Arg *arg)
 		for (c = selmon->sel->next; c && (!ISVISIBLE(c) || HIDDEN(c)); c = c->next);
 		if (!c)
 			for (c = selmon->clients; c && (!ISVISIBLE(c) || HIDDEN(c)); c = c->next);
-	} else {
+	} 
+        else {
 		for (i = selmon->clients; i != selmon->sel; i = i->next)
 			if (ISVISIBLE(i) && !HIDDEN(i))
 				c = i;
