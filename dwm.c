@@ -187,8 +187,6 @@ struct Systray {
 };
 
 /* function declarations */
-static void logtofile(char log[100]);
-
 static void tile(Monitor *m);
 static void magicgrid(Monitor *m);
 static void overview(Monitor *m);
@@ -393,14 +391,6 @@ struct Pertag {
 };
 
 /* function implementations */
-void
-logtofile(char log[100])
-{
-    char cmd [150];
-    sprintf(cmd, "echo '%s' >> ~/log", log);
-    system(cmd);
-}
-
 void
 applyrules(Client *c)
 {

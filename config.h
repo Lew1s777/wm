@@ -21,11 +21,11 @@ static const unsigned int baralpha       = 0xc0;      /* statusbar transparency 
 static const unsigned int borderalpha    = 0xdd;      /* border transparency */
 static const char *fonts[]          = { "Minecraft:size=16","monospace:size=16"};
 static const char *colors[][3]           = {          /* color conf ColFg, ColBg, ColBorder */
-    [SchemeNorm] = { "#ffffff", "#333333", "#333333" },
+    [SchemeNorm] = { "#ffffff", "#333333", "#66B2FF" },
     //[SchemeSel] = { "#ffffff", "#37474F", "#42A5F5" },
     //[SchemeSelGlobal] = { "#ffffff", "#37474F", "#FFC0CB" },
-    [SchemeSel] = { "#ffffff", "#9999FF", "#CC99FF" },
-    [SchemeSelGlobal] = { "#ffffff", "#9999FF", "#CC99FF" },
+    [SchemeSel] = { "#ffffff", "#9999FF", "#66B2FF" },
+    [SchemeSelGlobal] = { "#ffffff", "#9999FF", "#B266FF" },
     [SchemeHid] = { "#dddddd", NULL, NULL },
     [SchemeSystray] = { NULL, "#333333", NULL },
     [SchemeUnderline] = { "#7799AA", NULL, NULL },
