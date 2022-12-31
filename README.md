@@ -8,7 +8,7 @@ Warning
 ---
 line30 of ```config.make```:
 ```
-CFLAGS   = -std=c99 -pedantic -Wall -Wno-deprecated-declarations -march=x86-64-v3 -O3 ${INCS} ${CPPFLAGS}
+CPUFLAGS = -march=x86-64-v3
 ```
 changes ```-march=x86-64-v3``` to your own cpu microarchitecture level or dwm is unexecutable
 
