@@ -98,6 +98,7 @@ drw_free(Drw *drw)
 {
 	XFreePixmap(drw->dpy, drw->drawable);
 	XFreeGC(drw->dpy, drw->gc);
+    drw_fontset_free(drw->fonts);
 	free(drw);
 }
 
@@ -133,19 +134,6 @@ xfont_create(Drw *drw, const char *fontname, FcPattern *fontpattern)
 		}
 	} else {
 		die("no font specified.");
-	}
-
-	/* Do not allow using color fonts. This is a workaround for a BadLength
-	 * error from Xft with color glyphs. Modelled on the Xterm workaround. See
-	 * https://bugzilla.redhat.com/show_bug.cgi?id=1498269
-	 * https://lists.suckless.org/dev/1701/30932.html
-	 * https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=916349
-	 * and lots more all over the internet.
-	 */
-	FcBool iscol;
-	if(FcPatternGetBool(xfont->pattern, FC_COLOR, 0, &iscol) == FcResultMatch && iscol) {
-		XftFontClose(drw->dpy, xfont);
-		return NULL;
 	}
 
 	font = ecalloc(1, sizeof(Fnt));
@@ -284,7 +272,7 @@ drw_text(Drw *drw, int x, int y, unsigned int w, unsigned int h, unsigned int lp
 
 	usedfont = drw->fonts;
 	while (1) {
-		utf8strlen = 0;
+		ew = utf8strlen = 0;
 		utf8str = text;
 		nextfont = NULL;
 		while (*text) {

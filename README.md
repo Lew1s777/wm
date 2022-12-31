@@ -1,75 +1,68 @@
-My build of dwm(TL,DR)
-============================
-[中文版](./README_cn.md)
-
-dwm is an extremely fast, small, and dynamic window manager for X.
-
-this repo is my build of dwm.
-
-To make dwm work as well as it does in my case, you'll need some scripts.
-
-I have no obligation nor will I maintain the repository. If you encounter problems with it, please try to fix them yourself, or clone the dwm source code & the patches and build your own.
+dwm - dynamic window manager
+===
+[dwm](https://dwm.suckless.org/) is an extremely fast, small, and dynamic window manager for X.
+this is my build of dwm.
 
 Requirements
-------------
-In order to build dwm you need the Xlib header files.
-
+---
+- compiling dependencies
+  - Xlib header files (```xorg```)
+- optional dependencies
+  - ```chromium```
+  - icalingua/```icalingua++```
+  - ```rofi```
+  - ```yesplaymusic```
 
 Installation
-------------
-Edit [config.mk](./config.mk) to match your local setup (dwm is installed into the /usr/local namespace by default).
+---
+Edit config.mk to match your local setup (dwm is installed into the /usr/local namespace by default).
 
-Edit [config.h](./config.h) to change the config,include the keybind.
+Afterwards enter the following command to build and install dwm (if necessary as root):
 
-Afterwards enter the following command to build and install dwm (as root):
-```
-make clean install
-```
-Patches applied
----------------
-- [dwm-alpha-20180613-b69c870.diff](https://dwm.suckless.org/patches/alpha/)
-- [dwm-autostart-20161205-bb3bd6f.diff](https://dwm.suckless.org/patches/autostart/)
-- [dwm-awesomebar-20191003-80e2a76.diff](https://dwm.suckless.org/patches/awesomebar/)
-- [dwm-fullscreen-6.2.diff](https://dwm.suckless.org/patches/fullscreen/)
-- [dwm-hide-and-restore.diff](https://github.com/theniceboy/dwm-hide-and-restore-win.diff)
-- [dwm-hide_vacant_tags-6.2.diff](https://dwm.suckless.org/patches/hide_vacant_tags/)
-- [dwm-noborder-6.2.diff](https://dwm.suckless.org/patches/noborder/)
-- [dwm-pertag-20170513-ceac8c9.diff](https://dwm.suckless.org/patches/pertag/)
-- [dwm-r1522-viewontag.diff](https://dwm.suckless.org/patches/viewontag/)
-- [dwm-rotatestack-20161021-ab9571b.diff](https://dwm.suckless.org/patches/rotatestack/)
-- [dwm-scratchpad-6.2.diff](https://dwm.suckless.org/patches/scratchpad/)
-- [dwm-vanitygaps-20190508-6.2.diff](https://dwm.suckless.org/patches/vanitygaps/)
+    make clean install
 
-running dwm
+Configuration
+---
+The configuration of dwm is done by creating a custom config.h and (re)compiling the source code.
+
+Running dwm
 ---
 Add the following line to your .xinitrc to start dwm using startx:
 
     exec dwm
 
-and then start you xserver with
+In order to connect dwm to a specific display, make sure that the DISPLAY environment variable is set correctly, e.g.:
+```
+DISPLAY=foo.bar:1 exec dwm
+```
 
-    startx
-
-
-In order to connect dwm to a specific display, make sure that
-the DISPLAY environment variable is set correctly, e.g.:
-
-    DISPLAY=foo.bar:1 exec dwm
-
-(This will start dwm on display :1 of the host foo.bar.)
-
-If you have a display manager,select the dwm option in it before login.
-
-common tips(on using dwm)
+Tips
 ---
+
+#### status bar ####
 In order to display status info in the bar, you can do something like this in your .xinitrc:
 ```
 while xsetroot -name "`date` `uptime | sed 's/.*,//'`"
 do
-        sleep 1
+	sleep 1
 done &
 exec dwm
 ```
-or you can whrite a while script and lauch it at start(that what i did)
+also see [my status bar script](https://github.com/Lew1s777/dwm-statusbar)
 
-[further leaning](https://wiki.archlinux.org/title/Dwm#Statusbar_configuration)
+If you do not want to spawn too many PIDs by ```xsetroot``` command,use command below to compile a C program ```dwm-setstatus``` and pipe statusbar content in it instead.
+```
+gcc dwm-setstatus.c -lX11 -o dwm-setstatus -O3
+```
+
+#### Make dwm visible to session manager (e.p. sddm,gdm) ####
+My build of dwm does not generate a ```.desktop``` file for session manager identification because I do not use a session manager.If you need to use it,please create the file ```/use/share/xsessions/dwm.desktop``` with content below
+```
+[Desktop Entry]
+Encoding=UTF-8
+Name=dwm
+Comment=dynamic Window manager
+Exec=/usr/local/bin/dwm
+Icon=dwm
+Type=XSession
+```
