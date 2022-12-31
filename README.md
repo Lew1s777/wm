@@ -61,7 +61,7 @@ My build of dwm does not generate a ```.desktop``` file for session manager iden
 [Desktop Entry]
 Encoding=UTF-8
 Name=dwm
-Comment=dynamic Window manager
+Comment=dynamic window manager
 Exec=/usr/local/bin/dwm
 Icon=dwm
 Type=XSession
