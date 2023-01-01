@@ -54,6 +54,8 @@ static const Rule rules[] = {
     {"yesplaymusic",    NULL,          NULL,        1 << 5,       0,          0,          0,            -1 },
     {"Chromium",        NULL,          NULL,        1 << 6,       0,          0,          0,            -1 },
     { NULL,             NULL,          "crx_",      0,            1,          0,          0,            -1 },
+    { NULL,             NULL,          "Electronic WeChat",
+                                                    1 << 7,       0,          0,          0,            -1 },
     { NULL,             "icalingua",   NULL,        1 << 8,       0,          0,          0,            -1 },
   //{ NULL,             "wechat.exe",  NULL,        1 << 10,      0,          0,          0,            -1 },
   //{ NULL,             "wxwork.exe",  NULL,        1 << 11,      0,          0,          0,            -1 },
