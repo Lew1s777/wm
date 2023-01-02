@@ -72,7 +72,7 @@ gcc dwm-setstatus.c -lX11 -o dwm-setstatus -O3
 ```
 
 #### Make dwm visible to session manager (e.p. sddm,gdm) ####
-My build of dwm does not generate a ```.desktop``` file for session manager identification because I do not use a session manager.If you need to use it,please create the file ```/use/share/xsessions/dwm.desktop``` with content below
+My build of dwm does not generate a ```.desktop``` file for session manager identification because I do not use a session manager.If you need it,create ```/use/share/xsessions/dwm.desktop``` with content below
 ```
 [Desktop Entry]
 Encoding=UTF-8
@@ -81,4 +81,11 @@ Comment=dynamic window manager
 Exec=/usr/local/bin/dwm
 Icon=dwm
 Type=XSession
+```
+
+#### java gui ####
+```
+export AWT_TOOLKIT=MToolkit
+export _JAVA_AWT_WM_NONREPARENTING=1
+wmname LG3D
 ```
