@@ -1,14 +1,9 @@
-dwm - dynamic window manager
-===
-[dwm](https://dwm.suckless.org/) is an extremely fast, small, and dynamic window manager for X.
-
-this is my build of dwm.
 
 Warning
 ---
 line30 of ```config.make```:
 ```
-CPUFLAGS = -march=x86-64-v3
+CFLAGS   = -std=c99 -pedantic -Wall -Wno-deprecated-declarations -march=native -O3 ${INCS} ${CPPFLAGS}
 ```
 changes ```-march=x86-64-v3``` to your own cpu microarchitecture level or dwm is unexecutable
 
@@ -17,7 +12,7 @@ detect your microarchitecture level with
 /lib/ld-linux-x86-64.so.2 --help
 ```
 
-if you want dwm be able to run on any x86 system(e.p. ur system is installed on a usb drive),you can use ```-march=x86-64```
+if you want dwm to run on any x86 system(e.p. ur system is installed on a usb drive),you can use ```-march=x86-64```
 
 Requirements
 ---
