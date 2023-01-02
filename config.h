@@ -22,8 +22,8 @@ static const unsigned int borderalpha    = 0xdd;      /* border transparency */
 static const char *fonts[]          = { "Minecraft:size=16","monospace:size=16"};
 static const char *colors[][3]           = {          /* color conf ColFg, ColBg, ColBorder */
     [SchemeNorm] = { "#ffffff", "#333333", "#444444" },
-    [SchemeSel] = { "#ffffff", "#bd93f9", "#bd93f9" },
-    [SchemeSelGlobal] = { "#ffffff", "#66FF66", "#bd93f9" },
+    [SchemeSel] = { "#000000", "#bd93f9", "#bd93f9" },
+    [SchemeSelGlobal] = { "#000000", "#66FF66", "#bd93f9" },
     [SchemeHid] = { "#dddddd", NULL, NULL },
     [SchemeSystray] = { NULL, "#333333", NULL },
     [SchemeUnderline] = { "#bd93f9", NULL, NULL },
