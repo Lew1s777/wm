@@ -46,7 +46,7 @@ static const char scratchpadname[] = "scratchpad";
 
 //            ﮸  ﭮ
 //static const char *tags[] = { "", "\uf120", "3", "4", "5", "", "", "﬐", "ﬄ", "6",  "7", "8" };
-static const char *tags[] = { "", "\uf120", "", "", "", "", "", "﬐", "ﬄ", "",  "", "" ,"" };
+static const char *tags[] = { "", "\uf120", "", "", "﮸", "", "", "﬐", "ﬄ", "",  "", "" ,"" };
 
 static const Rule rules[] = {
     /* class            instance       title        tags mask     isfloating  isglobal    isnoborder    monitor */
