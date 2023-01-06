@@ -46,7 +46,7 @@ static const char scratchpadname[] = "scratchpad";
 
 //            ﮸  ﭮ
 //static const char *tags[] = { "", "\uf120", "3", "4", "5", "", "", "﬐", "ﬄ", "6",  "7", "8" };
-static const char *tags[] = { "", "\uf120", "", "", "﮸", "", "", "﬐", "ﬄ", "",  "", "" ,"" };
+static const char *tags[] = { "", "\uf120", "", "", "﮸", "", "", "﬐", "ﬄ", "",  "", "" ,"" };
 
 static const Rule rules[] = {
     /* class            instance       title        tags mask     isfloating  isglobal    isnoborder    monitor */
@@ -76,7 +76,7 @@ static const Layout overviewlayout = { "舘",  overview };
 /* 自定义布局 */
 static const Layout layouts[] = {
     { "﬿",  tile },         //dwm default tile
-    { "﩯",  magicgrid },    //i3 like
+    { "﩯",  magicgrid },    /table
 };
 
 #define MODKEY Mod4Mask
@@ -130,20 +130,22 @@ static Key keys[] = {
     { MODKEY|ControlMask,       XK_q,           forcekillclient,    {0} },                  //forekill
     { MODKEY|ControlMask,       XK_F12,         quit,               {0} },                  //quit dwm
 //custom shell cmd
-    { MODKEY,                   XK_slash,       togglescratch,      SHCMD("st -t scratchpad -c float") }, //scratchpad
-    { MODKEY,                   XK_Return,      spawn,              SHCMD("st") },                        //st
-    { MODKEY,                   XK_r,           spawn,              SHCMD("rofi -show run") },            //rofi menu
-    { 0,                        XK_Print,       spawn,              SHCMD("flameshot gui") },             //flameshot
-    { MODKEY|ShiftMask,         XK_k,           spawn,              SHCMD("~/scripts/sck-tog.sh") },      //screenkey
+    { MODKEY,                   XK_slash,       togglescratch,      SHCMD("st -t scratchpad -c float") },   //scratchpad
+    { MODKEY,                   XK_Return,      spawn,              SHCMD("st") },                          //st
+    { MODKEY,                   XK_r,           spawn,              SHCMD("rofi -show run") },              //rofi menu
+    { 0,                        XK_Print,       spawn,              SHCMD("flameshot gui") },               //flameshot
+    { MODKEY|ShiftMask,         XK_k,           spawn,              SHCMD("~/scripts/sck-tog.sh") },        //screenkey
   //{ MODKEY|ShiftMask,         XK_q,           spawn,              SHCMD("kill -9 $(xprop | grep _NET_WM_PID | awk '{print $3}')") }, //xkill
     { 0,                        XF86XK_AudioRaiseVolume,
                                                 spawn,  SHCMD("~/scripts/vol-up.sh") },         //vol++
     { 0,                        XF86XK_AudioLowerVolume,
                                                 spawn,  SHCMD("~/scripts/vol-down.sh") },       //vol--
+    { MODKEY,                   XK_l,           spawn,              SHCMD("~/scripts/closemonitor.sh") },   //close monitor
+    { MODKEY|ShiftMask,         XK_l,           spawn,              SHCMD("systemctl suspend") },           //close monitor
 
     /* key          tag     cmd1                                        cmd2 */
     TAGKEYS(XK_1,   0,      "st -c float",                              0)
-    TAGKEYS(XK_2,   1,      "st -c float",                              0)
+    TAGKEYS(XK_2,   1,      "st",                                       0)
     TAGKEYS(XK_3,   2,      0,                                          0)
     TAGKEYS(XK_4,   3,      0,                                          0)
     TAGKEYS(XK_5,   4,      0,                                          0)

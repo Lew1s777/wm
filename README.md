@@ -68,3 +68,34 @@ export AWT_TOOLKIT=MToolkit
 export _JAVA_AWT_WM_NONREPARENTING=1
 wmname LG3D
 ```
+
+#### autostart ####
+this is the tip for autostart dwm,not autostart a script when dwm start.
+
+- automatic login tty
+  - create file ```/etc/systemd/system/getty@tty1.service.d/override.conf```
+```
+[Service]
+ExecStart=-/usr/bin/agetty --autologin [ur user name] --noclear %I $TERM
+```
+
+- start dwm as tty start
+  - add content below to your default shell rc
+```
+[ $(tty) = "/dev/tty1" ] && cd ~ && startx
+```
+
+#### picom ####
+prevent rounded statusbar
+```
+rounded-corners-exclude = [
+  "class_g *= 'dwm'"
+];
+```
+This only works on this branch of dwm.for default branch,use below instead
+```
+rounded-corners-exclude = [
+  "y = 0 && override_redirect = true",
+];
+```
+
