@@ -1,5 +1,5 @@
 #include <X11/XF86keysym.h>
-//#include "incnmaster.c"                               //uncomment if u need this function
+#include "incnmaster.c"                               //uncomment if u need this function
 
 static int showsystray                   = 1;         /* show systemtray */
 static const int newclientathead         = 0;         /* stack of new win */
@@ -103,8 +103,8 @@ static Key keys[] = {
     { MODKEY,                   XK_h,           hidewin,            {0} },                  //minimize window
     { MODKEY|ShiftMask,         XK_h,           restorewin,         {0} },                  //restore minimized window
     { MODKEY|ShiftMask,         XK_Return,      zoom,               {0} },                  //set selected win to main win
-    //{ MODKEY,                   XK_t,           incnmaster,         {.i = +1} },            //num of win in master space,uncomment line2 to enable this function
-    //{ MODKEY,                   XK_t,           incnmaster,         {.i = +1} },
+    { MODKEY,                   XK_t,           incnmaster,         {.i = +1} },            //num of win in master space
+    { MODKEY,                   XK_t,           incnmaster,         {.i = +1} },
 //resize
     { MODKEY|ControlMask,       XK_Up,          movewin,            {.ui = UP} },           //movewin
     { MODKEY|ControlMask,       XK_Down,        movewin,            {.ui = DOWN} },
