@@ -1,12 +1,7 @@
 Requirements
 ---
 - compiling dependencies
-  - Xlib header files (```xorg```)
-- optional dependencies
-  - ```chromium```
-  - icalingua/```icalingua++```
-  - ```rofi```
-  - ```yesplaymusic```
+  - Xlib header files
 
 Installation
 ---
@@ -76,7 +71,7 @@ this is the tip for autostart dwm,not autostart a script when dwm start.
   - create file ```/etc/systemd/system/getty@tty1.service.d/override.conf```
 ```
 [Service]
-ExecStart=-/usr/bin/agetty --autologin [ur user name] --noclear %I $TERM
+ExecStart=-/usr/bin/agetty --autologin [user name] --noclear %I $TERM
 ```
 
 - start dwm as tty start
