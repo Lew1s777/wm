@@ -76,7 +76,7 @@ static const Layout overviewlayout = { "舘",  overview };
 /* 自定义布局 */
 static const Layout layouts[] = {
     { "﬿",  tile },         //dwm default tile
-    { "﩯",  magicgrid },    /table
+    { "﩯",  magicgrid },    //table
 };
 
 #define MODKEY Mod4Mask
