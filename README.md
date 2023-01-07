@@ -14,6 +14,10 @@ Configuration
 ---
 The configuration of dwm is done by creating a custom config.h and (re)compiling the source code.
 
+incnmaster
+---
+patch the ```incnmaster.diff``` patch to add this function
+
 Running dwm
 ---
 Add the following line to your .xinitrc to start dwm using startx:
