@@ -1,12 +1,6 @@
 Requirements
 ---
-- compiling dependencies
-  - Xlib header files (```xorg```)
-- optional dependencies
-  - ```chromium```
-  - icalingua/```icalingua++```
-  - ```rofi```
-  - ```yesplaymusic```
+- Xlib header files
 
 Installation
 ---

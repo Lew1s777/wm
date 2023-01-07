@@ -78,14 +78,14 @@
 /* enums */
 enum { CurNormal, CurResize, CurMove, CurLast }; /* cursor */
 enum {
-    SchemeNorm,       // 普通
-    SchemeSel,        // 选中的
-    SchemeSelGlobal,  // 全局并选中的
-    SchemeHid,        // 隐藏的
-    SchemeSystray,    // 托盘
-    SchemeNormTag,    // 普通标签
-    SchemeSelTag,     // 选中的标签
-    SchemeUnderline   // 下划线
+    SchemeNorm,       // normal
+    SchemeSel,        // selected
+    SchemeSelGlobal,  // selected && global
+    SchemeHid,        // hided
+    SchemeSystray,    // systemtray
+    SchemeNormTag,    // normal tag
+    SchemeSelTag,     // selected tag
+    SchemeUnderline   // underline
 }; /* color schemes */
 enum { NetSupported, NetWMName, NetWMState, NetWMCheck,
        NetSystemTray, NetSystemTrayOP, NetSystemTrayOrientation, NetSystemTrayOrientationHorz,
@@ -93,7 +93,7 @@ enum { NetSupported, NetWMName, NetWMState, NetWMCheck,
        NetWMWindowTypeDialog, NetClientList, NetLast }; /* EWMH atoms */
 enum { Manager, Xembed, XembedInfo, XLast }; /* Xembed atoms */
 enum { WMProtocols, WMDelete, WMState, WMTakeFocus, WMLast }; /* default atoms */
-enum { ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle,
+enum { ClkTagBar, ClkLtSymbol, ClkWinTitle,
        ClkClientWin, ClkRootWin, ClkLast }; /* clicks */
 enum { UP, DOWN, LEFT, RIGHT }; /* movewin */
 enum { V_EXPAND, V_REDUCE, H_EXPAND, H_REDUCE }; /* resizewins */
@@ -556,15 +556,13 @@ buttonpress(XEvent *e)
     Monitor *m;
     XButtonPressedEvent *ev = &e->xbutton;
 
-    // 判断鼠标点击的位置
-    click = ClkRootWin;
+    click = ClkRootWin;// 判断鼠标点击的位置
     /* focus monitor if necessary */
     if ((m = wintomon(ev->window)) && m != selmon) {
         unfocus(selmon->sel, 1);
         selmon = m;
         focus(NULL);
     }
-    int status_w = drawstatusbar(selmon, bh, stext);
     if (ev->window == selmon->barwin) { // 点击在bar上
         i = x = 0;
         blw = TEXTW(selmon->ltsymbol);
@@ -573,7 +571,8 @@ buttonpress(XEvent *e)
             i = ~0;
             if (ev->x > x)
                 i = LENGTH(tags);
-        } else {
+        }
+        else {
             for (c = m->clients; c; c = c->next)
                 occ |= c->tags == TAGMASK ? 0 : c->tags;
             do {
@@ -586,13 +585,10 @@ buttonpress(XEvent *e)
         if (i < LENGTH(tags)) {
             click = ClkTagBar;
             arg.ui = 1 << i;
-        } else if (ev->x < x + blw)
+        }
+        else if (ev->x < x + blw)
             click = ClkLtSymbol;
-        else if (ev->x > selmon->ww - status_w -  (selmon == systraytomon(selmon) ? getsystraywidth() : 0)) {
-            click = ClkStatusText;
-            arg.i = ev->x - (selmon->ww - status_w - (selmon == systraytomon(selmon) ? getsystraywidth() : 0));
-            arg.ui = ev->button; // 1 => L，2 => M，3 => R, 5 => U, 6 => D
-        } else {
+        else {
             x += blw;
             c = m->clients;
 
@@ -610,7 +606,8 @@ buttonpress(XEvent *e)
                 arg.v = c;
             }
         }
-    } else if ((c = wintoclient(ev->window))) {
+    }
+    else if ((c = wintoclient(ev->window))) {
         focus(c);
         restack(selmon);
         XAllowEvents(dpy, ReplayPointer, CurrentTime);
@@ -619,14 +616,13 @@ buttonpress(XEvent *e)
     for (i = 0; i < LENGTH(buttons); i++)
         if (click == buttons[i].click && buttons[i].func && buttons[i].button == ev->button
                 && CLEANMASK(buttons[i].mask) == CLEANMASK(ev->state))
-            buttons[i].func((click == ClkTagBar || click == ClkWinTitle || click == ClkStatusText) && buttons[i].arg.i == 0 ? &arg : &buttons[i].arg);
+            buttons[i].func((click == ClkTagBar || click == ClkWinTitle) && buttons[i].arg.i == 0 ? &arg : &buttons[i].arg);
 }
 
 void
 checkotherwm(void)
-{
+{/* this causes an error if some other window manager is running */
     xerrorxlib = XSetErrorHandler(xerrorstart);
-    /* this causes an error if some other window manager is running */
     XSelectInput(dpy, DefaultRootWindow(dpy), SubstructureRedirectMask);
     XSync(dpy, False);
     XSetErrorHandler(xerror);
@@ -743,12 +739,10 @@ clientmessage(XEvent *e)
         if (c != selmon->sel && !c->isurgent)
             seturgent(c, 1);
         if (c == selmon->sel) return;
-        // 若不是当前显示器 则跳转到对应显示器
-        if (c->mon != selmon) {
+        if (c->mon != selmon) {// 若不是当前显示器 则跳转到对应显示器
             focusmon(&(Arg) { .i = +1 });
         }
-        // 若不是当前tag 则跳转到对应tag
-        if (!ISVISIBLE(c)) {
+        if (!ISVISIBLE(c)) {// 若不是当前tag 则跳转到对应tag
             view(&(Arg) { .ui = c->tags });
         }
     }
@@ -951,14 +945,11 @@ drawbar(Monitor *m)
 
     if (!m->showbar)
         return;
-
     // get statusbar width
     if(showsystray && m == systraytomon(m))
         system_w = getsystraywidth();
-
     // draw statusbar
     status_w = drawstatusbar(m, bh, stext);
-
     for (c = m->clients; c; c = c->next) {
         if (ISVISIBLE(c))
             n++;
@@ -966,10 +957,8 @@ drawbar(Monitor *m)
         if (c->isurgent)
             urg |= c->tags;
     }
-
     // draw tags
     x = 0;
-
     // 代表为overview tag状态
     if (m->isoverview) {
         w = TEXTW(overviewtag);
@@ -2935,7 +2924,7 @@ updatestatus(void)
     Monitor *m;
     if (!gettextprop(root, XA_WM_NAME, stext, sizeof(stext)))
         //strcpy(stext, "^c#2D1B46^^b#335566^:) ^d^"); // defualt statusbar text
-        strcpy(stext, "^c#2D1B46^^b#335566^:) Your PC ran into a problem and needs to restart ^d^"); // defualt statusbar text
+        strcpy(stext, "^c#2D1B46^^b#335566^ :) Your PC ran into a problem and needs to restart ^d^"); // defualt statusbar text
     for (m = mons; m; m = m->next)
         drawbar(m);
     updatesystray();
@@ -3145,7 +3134,6 @@ toggleoverview(const Arg *arg)
 {
     if (selmon->sel && selmon->sel->isfullscreen) /* no support for fullscreen windows */
         return;
-
     uint target = selmon->sel && selmon->sel->tags != TAGMASK ? selmon->sel->tags : selmon->seltags;
     selmon->isoverview ^= 1;
     view(&(Arg){ .ui = target });
@@ -3160,7 +3148,6 @@ viewtoleft(const Arg *arg) {
         pre = target;
         target >>= 1;
         if (target == pre) return;
-
         for (c = selmon->clients; c; c = c->next) {
             if (c->isglobal && c->tags == TAGMASK) continue;
             if (c->tags & target && __builtin_popcount(selmon->tagset[selmon->seltags] & TAGMASK) == 1
@@ -3373,8 +3360,7 @@ xerrordummy(Display *dpy, XErrorEvent *ee)
     return 0;
 }
 
-/* Startup Error handler to check if another window manager
- * is already running. */
+//Startup Error handler to check if another window manager is already running.
 int
 xerrorstart(Display *dpy, XErrorEvent *ee)
 {
@@ -3452,9 +3438,9 @@ int
 main(int argc, char *argv[])
 {
     if (argc == 2 && !strcmp("-v", argv[1]))
-        die("dwm-6.3");
+        die("dwm-6.4.1");
     else if (argc != 1)
-        die("usage: dwm [-v]");
+        die("See: man dwm");
     if (!(dpy = XOpenDisplay(NULL)))
         die("dwm: cannot open display");
     checkotherwm();

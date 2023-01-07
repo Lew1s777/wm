@@ -19,7 +19,7 @@ static const int   nmaster               = 1;         /* number of win at master
 static const unsigned int snap           = 10;        /* border width */
 static const unsigned int baralpha       = 0xc0;      /* statusbar transparency */
 static const unsigned int borderalpha    = 0xdd;      /* border transparency */
-static const char *fonts[]          = { "Minecraft:size=16","monospace:size=16"};
+static const char *fonts[]          = { "Minecraft:size=16","SauceCodePro Nerd Font Mono:size=16","monospace:size=16"};
 static const char *colors[][3]           = {          /* color conf ColFg, ColBg, ColBorder */
     [SchemeNorm] = { "#ffffff", "#333333", "#444444" },
     [SchemeSel] = { "#000000", "#bd93f9", "#bd93f9" },
