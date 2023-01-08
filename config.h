@@ -43,9 +43,7 @@ static const char *autostartscript = "~/scripts/autostart.sh";
 /* custom scratchpad instance */
 static const char scratchpadname[] = "scratchpad";
 
-//            ﮸  ﭮ
-//static const char *tags[] = { "", "\uf120", "3", "4", "5", "", "", "﬐", "ﬄ", "6",  "7", "8" };
-static const char *tags[] = { "", "\uf120", "", "", "﮸", "", "", "﬐", "ﬄ", "",  "", "" ,"" };
+static const char *tags[] = { "", "גּ", "", "", "", "", "", "", "ﬄ", "﬐", "הּ", "" ,"" };
 
 static const Rule rules[] = {
     /* class            instance       title        tags mask     isfloating  isglobal    isnoborder    monitor */
@@ -54,7 +52,7 @@ static const Rule rules[] = {
     {"Chromium",        NULL,          NULL,        1 << 6,       0,          0,          0,            -1 },
     { NULL,             NULL,          "crx_",      0,            1,          0,          0,            -1 },
     { NULL,             NULL,          "Electronic WeChat",
-                                                    1 << 7,       0,          0,          0,            -1 },
+                                                    1 << 9,       0,          0,          0,            -1 },
     { NULL,             "icalingua",   NULL,        1 << 8,       0,          0,          0,            -1 },
   //{ NULL,             "wechat.exe",  NULL,        1 << 10,      0,          0,          0,            -1 },
   //{ NULL,             "wxwork.exe",  NULL,        1 << 11,      0,          0,          0,            -1 },
@@ -74,7 +72,7 @@ static const Layout overviewlayout = { "舘",  overview };
 
 /* 自定义布局 */
 static const Layout layouts[] = {
-    { "﬿",  tile },         //dwm default tile
+    { "﬿",  tile },         //tile
     { "﩯",  magicgrid },    //table
 };
 
@@ -129,6 +127,7 @@ static Key keys[] = {
 //custom shell cmd
     { MODKEY,                   XK_slash,       togglescratch,      SHCMD("st -t scratchpad -c float") },   //scratchpad
     { MODKEY,                   XK_Return,      spawn,              SHCMD("st") },                          //st
+    { MODKEY|ShiftMask,         XK_Return,      spawn,              SHCMD("st -c float") },
     { MODKEY,                   XK_r,           spawn,              SHCMD("rofi -show run") },              //rofi menu
     { 0,                        XK_Print,       spawn,              SHCMD("flameshot gui") },               //flameshot
     { MODKEY|ShiftMask,         XK_k,           spawn,              SHCMD("~/scripts/sck-tog.sh") },        //screenkey
@@ -142,7 +141,7 @@ static Key keys[] = {
 
     /* key          tag     cmd1                                        cmd2 */
     TAGKEYS(XK_1,   0,      "st -c float",                              0)
-    TAGKEYS(XK_2,   1,      "st",                                       0)
+    TAGKEYS(XK_2,   1,      0,                                          0)
     TAGKEYS(XK_3,   2,      0,                                          0)
     TAGKEYS(XK_4,   3,      0,                                          0)
     TAGKEYS(XK_5,   4,      0,                                          0)

@@ -2,6 +2,7 @@ Requirements
 ---
 - compiling dependencies
   - Xlib header files
+- nerd font
 
 Installation
 ---
@@ -38,7 +39,7 @@ do
 done &
 exec dwm
 ```
-also see [my status bar script](https://github.com/Lew1s777/dwm-statusbar)
+Also see [my status bar script](https://github.com/Lew1s777/dwm-statusbar)
 
 If you do not want to spawn too many PIDs by ```xsetroot``` command,use command below to compile a C program ```dwm-setstatus``` and pipe statusbar content in it instead.
 ```
@@ -46,7 +47,7 @@ gcc dwm-setstatus.c -lX11 -o dwm-setstatus -O3
 ```
 
 #### Make dwm visible to session manager (e.p. sddm,gdm) ####
-My build of dwm does not generate a ```.desktop``` file for session manager identification because I do not use a session manager.If you need it,create ```/use/share/xsessions/dwm.desktop``` with content below
+This build of dwm does not generate a ```.desktop``` file for session manager identification as I do not use a session manager.To create it,create ```/use/share/xsessions/dwm.desktop``` with content below
 ```
 [Desktop Entry]
 Encoding=UTF-8
@@ -65,7 +66,7 @@ wmname LG3D
 ```
 
 #### autostart ####
-this is the tip for autostart dwm,not autostart a script when dwm start.
+This is the tip for autostart dwm,not autostart a script when dwm start.
 
 - automatic login tty
   - create file ```/etc/systemd/system/getty@tty1.service.d/override.conf```
@@ -81,16 +82,15 @@ ExecStart=-/usr/bin/agetty --autologin [user name] --noclear %I $TERM
 ```
 
 #### picom ####
-prevent rounded statusbar
+Prevent rounded statusbar
 ```
 rounded-corners-exclude = [
   "class_g *= 'dwm'"
 ];
 ```
-This only works on this branch of dwm.for default branch,use below instead
-```
-rounded-corners-exclude = [
-  "y = 0 && override_redirect = true",
-];
-```
+This only works on this branch of dwm.
+
+#### icon ####
+Get icons at https://www.nerdfonts.com/cheat-sheet
+
 

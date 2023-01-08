@@ -3448,9 +3448,9 @@ int
 main(int argc, char *argv[])
 {
     if (argc == 2 && !strcmp("-v", argv[1]))
-        die("dwm-6.3");
+        die("dwm-6.4.1");
     else if (argc != 1)
-        die("usage: dwm [-v]");
+        die("usage: man dwm");
     if (!(dpy = XOpenDisplay(NULL)))
         die("dwm: cannot open display");
     checkotherwm();
