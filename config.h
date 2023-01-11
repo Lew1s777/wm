@@ -1,6 +1,6 @@
 #include <X11/XF86keysym.h>
 
-static int showsystray                   = 1;         /* show systemtray */
+static int showsystray                   = 0;         /* show systemtray */
 static const int newclientathead         = 0;         /* stack of new win */
 static const unsigned int borderpx       = 2;         /* size of border/pixel */
 static const unsigned int systraypinning = 0;         /* the monitor systemtray show(0=all) */
@@ -20,14 +20,14 @@ static const unsigned int baralpha       = 0xc0;      /* statusbar transparency 
 static const unsigned int borderalpha    = 0xdd;      /* border transparency */
 static const char *fonts[]          = { "Minecraft:size=16","SauceCodePro Nerd Font Mono:size=16","monospace:size=16"};
 static const char *colors[][3]           = {          /* color conf ColFg, ColBg, ColBorder */
-    [SchemeNorm] = { "#ffffff", "#333333", "#444444" },
-    [SchemeSel] = { "#000000", "#bd93f9", "#bd93f9" },
-    [SchemeSelGlobal] = { "#000000", "#66FF66", "#bd93f9" },
-    [SchemeHid] = { "#dddddd", NULL, NULL },
+    [SchemeNorm] = { "#bd93f9", NULL, "#444444" },
+    [SchemeSel] = { "#6666ff", NULL, "#bd93f9" },
+    [SchemeSelGlobal] = { "#6666ff", NULL, "#bd93f9" },
+    [SchemeHid] = { "#bd93f9", NULL, NULL },
     [SchemeSystray] = { NULL, "#333333", NULL },
     [SchemeUnderline] = { "#bd93f9", NULL, NULL },
-    [SchemeNormTag] = { "#bbbbbb", "#333333", NULL },
-    [SchemeSelTag] = { "#eeeeee", "#333333", NULL },
+    [SchemeNormTag] = { "#bd93f9", NULL, NULL },
+    [SchemeSelTag] = { "#6666ff", NULL, NULL },
 };
 static const unsigned int alphas[][3]    = {          /* opacity conf ColFg, ColBg, ColBorder */
     [SchemeNorm] = { OPAQUE, baralpha, borderalpha }, 
@@ -40,8 +40,6 @@ static const unsigned int alphas[][3]    = {          /* opacity conf ColFg, Col
 /* custom scripts */
 static const char *autostartscript = "~/scripts/autostart.sh";
 
-/* custom scratchpad instance */
-static const char scratchpadname[] = "scratchpad";
 
 static const char *tags[] = { "", "גּ", "", "", "", "", "", "", "ﬄ", "﬐", "הּ", "" ,"" };
 
@@ -63,6 +61,7 @@ static const Rule rules[] = {
                                                     0,            1,          0,          0,            -1 },
     {"flameshot",       NULL,          NULL,        0,            1,          0,          0,            -1 },
     {"wemeetapp",       NULL,          NULL,        TAGMASK,      1,          1,          0,            -1 },
+    {"mangoapp",        NULL,          NULL,        TAGMASK,      1,          1,          0,            -1 },
     {"float",           NULL,          NULL,        0,            1,          0,          0,            -1 },//for abnormal win,the same below
     {"noborder",        NULL,          NULL,        0,            1,          0,          1,            -1 },
     {"global",          NULL,          NULL,        TAGMASK,      1,          1,          0,            -1 },
@@ -72,8 +71,9 @@ static const Layout overviewlayout = { "舘",  overview };
 
 /* 自定义布局 */
 static const Layout layouts[] = {
-    { "﬿",  tile },         //tile
-    { "﩯",  magicgrid },    //table
+    { "﬿",  tile },          //tile
+    { "﩯",  magicgrid },     //table
+  //{ "", NULL },          //table
 };
 
 #define MODKEY Mod4Mask
@@ -85,7 +85,6 @@ static const Layout layouts[] = {
 
 static Key keys[] = {
    /* modifier                  key             function            argument */
-//movement
     { MODKEY,                   XK_w,           focusstack,         {.i = +1} },            //switch win selection
     { MODKEY,                   XK_Up,          focusstack,         {.i = -1} },
     { MODKEY,                   XK_Down,        focusstack,         {.i = +1} },
@@ -99,8 +98,8 @@ static Key keys[] = {
     { MODKEY|ShiftMask,         XK_0,           tagmon,             {.i = +1} },            //move win to another monitor
     { MODKEY,                   XK_h,           hidewin,            {0} },                  //minimize window
     { MODKEY|ShiftMask,         XK_h,           restorewin,         {0} },                  //restore minimized window
-    { MODKEY|ShiftMask,         XK_Return,      zoom,               {0} },                  //set selected win to main win
-//resize
+    { MODKEY|ControlMask,       XK_h,           hideotherwins,      {0} },
+    { MODKEY|ControlMask,       XK_Return,      zoom,               {0} },                  //set master win
     { MODKEY|ControlMask,       XK_Up,          movewin,            {.ui = UP} },           //movewin
     { MODKEY|ControlMask,       XK_Down,        movewin,            {.ui = DOWN} },
     { MODKEY|ControlMask,       XK_Left,        movewin,            {.ui = LEFT} },
@@ -109,29 +108,26 @@ static Key keys[] = {
     { MODKEY|Mod1Mask,          XK_Down,        resizewin,          {.ui = V_EXPAND} },
     { MODKEY|Mod1Mask,          XK_Left,        resizewin,          {.ui = H_REDUCE} },
     { MODKEY|Mod1Mask,          XK_Right,       resizewin,          {.ui = H_EXPAND} },
-//window management
     { 0,                        XK_F11,         fullscreen,         {0} },                  //toggle fullscreen
     { MODKEY,                   XK_g,           toggleglobal,       {0} },                  //toggle global
     { MODKEY,                   XK_f,           togglefloating,     {0} },                  //toggle window float
     { MODKEY|ShiftMask,         XK_f,           toggleallfloating,  {0} },                  //toggle all window float
     { MODKEY|ShiftMask,         XK_Tab,         toggleoverview,     {0} },                  //overview mode
     { MODKEY,                   XK_Tab,         view,               {0} },
-    { MODKEY|ShiftMask,         XK_m,           selectlayout,       {.v = &layouts[1]} },   //toggle i3 mode
+  //{ MODKEY|ShiftMask,         XK_m,           selectlayout,       {.v = &layouts[1]} },   //toggle magicgrid
+    { MODKEY|ControlMask,       XK_Tab,         setlayout,          {0} },                  //toggle layouts
     { MODKEY|ShiftMask,         XK_o,           showonlyorall,      {0} },                  //toggle only visible/monocle
     { MODKEY,                   XK_b,           togglesystray,      {0} },                  //toggle systemtray
     { MODKEY|ShiftMask,         XK_b,           togglebar,          {0} },                  //toggle statusbar
-//quit
-    { MODKEY|ShiftMask,         XK_q,           killclient,         {0} },                  //killwin
-    { MODKEY|ControlMask,       XK_q,           forcekillclient,    {0} },                  //forekill
     { MODKEY|ControlMask,       XK_F12,         quit,               {0} },                  //quit dwm
-//custom shell cmd
-    { MODKEY,                   XK_slash,       togglescratch,      SHCMD("st -t scratchpad -c float") },   //scratchpad
+    { MODKEY|ShiftMask,         XK_q,           killclient,         {0} },                  //killwin
+  //{ MODKEY|ControlMask,       XK_q,           forcekillclient,    {0} },                  //forekill
+    { MODKEY|ControlMask,       XK_q,           spawn,              SHCMD("kill -9 $(xprop | grep _NET_WM_PID | awk '{print $3}')") }, //xkill
     { MODKEY,                   XK_Return,      spawn,              SHCMD("st") },                          //st
     { MODKEY|ShiftMask,         XK_Return,      spawn,              SHCMD("st -c float") },
     { MODKEY,                   XK_r,           spawn,              SHCMD("rofi -show run") },              //rofi menu
     { 0,                        XK_Print,       spawn,              SHCMD("flameshot gui") },               //flameshot
     { MODKEY|ShiftMask,         XK_k,           spawn,              SHCMD("~/scripts/sck-tog.sh") },        //screenkey
-  //{ MODKEY|ShiftMask,         XK_q,           spawn,              SHCMD("kill -9 $(xprop | grep _NET_WM_PID | awk '{print $3}')") }, //xkill
     { 0,                        XF86XK_AudioRaiseVolume,
                                                 spawn,  SHCMD("~/scripts/vol-up.sh") },         //vol++
     { 0,                        XF86XK_AudioLowerVolume,

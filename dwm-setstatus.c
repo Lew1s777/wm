@@ -24,8 +24,6 @@ int main(int argc, char * argv[])
                 input[strlen(input) - 1] = '\0';
                 XStoreName(dpy, win, input);
                 XFlush(dpy);
-                fprintf(stderr, "Input: %s", input);
-                fprintf(stderr, "\nbytes read: %ld\n", bytes_read);
         }
         free(input);
         return 0;
