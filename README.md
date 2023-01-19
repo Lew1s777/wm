@@ -1,3 +1,10 @@
+Clone
+---
+to clone this repo to local,enter the following command
+```
+git clone --depth 1 https://github.com/Lew1s777/dwm.git
+```
+
 Requirements
 ---
 - compiling dependencies
@@ -9,9 +16,9 @@ Installation
 Edit config.mk to match your local setup (dwm is installed into the /usr/local namespace by default).
 
 Afterwards enter the following command to build and install dwm (if necessary as root):
-
-    make clean install
-
+```
+make clean install
+```
 Configuration
 ---
 The configuration of dwm is done by creating a custom config.h and (re)compiling the source code.
