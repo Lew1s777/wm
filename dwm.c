@@ -73,19 +73,17 @@
 #define VERSION_MINOR               0
 #define XEMBED_EMBEDDED_VERSION (VERSION_MAJOR << 16) | VERSION_MINOR
 
-#define OPAQUE                  0xffU
-
 /* enums */
 enum { CurNormal, CurResize, CurMove, CurLast }; /* cursor */
 enum {
-    SchemeNorm,       // 普通
-    SchemeSel,        // 选中的
-    SchemeSelGlobal,  // 全局并选中的
-    SchemeHid,        // 隐藏的
-    SchemeSystray,    // 托盘
-    SchemeNormTag,    // 普通标签
-    SchemeSelTag,     // 选中的标签
-    SchemeUnderline   // 下划线
+    SchemeNorm,       // Normal
+    SchemeSel,        // Selected
+    SchemeSelGlobal,  // Global&&Selected
+    SchemeHid,        // Hided
+    SchemeSystray,    // Systemtray
+    SchemeNormTag,    // Normal Tag
+    SchemeSelTag,     // Selected Tag
+    SchemeUnderline   // Underline
 }; /* color schemes */
 enum { NetSupported, NetWMName, NetWMState, NetWMCheck,
        NetSystemTray, NetSystemTrayOP, NetSystemTrayOrientation, NetSystemTrayOrientationHorz,
@@ -247,7 +245,6 @@ static void restorewin(const Arg *arg);
 
 static void keypress(XEvent *e);
 static void killclient(const Arg *arg);
-static void forcekillclient(const Arg *arg);
 
 static void manage(Window w, XWindowAttributes *wa);
 static void mappingnotify(XEvent *e);
@@ -283,7 +280,6 @@ static void sendmon(Client *c, Monitor *m);
 static void setclientstate(Client *c, long state);
 static void setfocus(Client *c);
 
-static void selectlayout(const Arg *arg);
 static void setlayout(const Arg *arg);
 
 static void fullscreen(const Arg *arg);
@@ -518,7 +514,7 @@ arrangemon(Monitor *m)
         strncpy(m->ltsymbol, overviewlayout.symbol, sizeof m->ltsymbol);
         overviewlayout.arrange(m);
     } else {
-        strncpy(m->ltsymbol, m->lt[m->sellt]->symbol, sizeof m->ltsymbol);
+        //strncpy(m->ltsymbol, m->lt[m->sellt]->symbol, sizeof m->ltsymbol);
         m->lt[m->sellt]->arrange(m);
     }
 }
@@ -1503,16 +1499,6 @@ killclient(const Arg *arg)
 }
 
 void
-forcekillclient(const Arg *arg)
-{
-    if (!selmon->sel)
-        return;
-    killclient(arg);
-    unmanage(selmon->sel, 1);
-}
-
-
-void
 managefloating(Client *c)
 {
     Client *tc;
@@ -2275,14 +2261,6 @@ fullscreen(const Arg *arg)
 }
 
 void
-selectlayout(const Arg *arg)
-{
-    const Layout *cur = selmon->lt[selmon->sellt];
-    const Layout *target = cur == arg->v ? &layouts[0] : arg->v;
-    setlayout(&(Arg) { .v = target });
-}
-
-void
 setlayout(const Arg *arg)
 {
     if (arg->v != selmon->lt[selmon->sellt])
@@ -2900,7 +2878,6 @@ updatestatus(void)
 {
     Monitor *m;
     if (!gettextprop(root, XA_WM_NAME, stext, sizeof(stext)))
-        //strcpy(stext, "^c#2D1B46^^b#335566^:) ^d^"); // defualt statusbar text
         strcpy(stext, "^c#2D1B46^^b#335566^:) Your PC ran into a problem and needs to restart ^d^"); // defualt statusbar text
     for (m = mons; m; m = m->next)
         drawbar(m);
