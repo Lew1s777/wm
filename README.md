@@ -1,6 +1,7 @@
 Intro
 ---
 This is my build of dwm
+<img src='https://github.com/Lew1s777/dwm/blob/img/screenshot.jpg'/>
 
 Clone
 ---
