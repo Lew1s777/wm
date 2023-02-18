@@ -1,9 +1,3 @@
-//static Key keys[] = {
-//	{ MODKEY|ShiftMask,			XK_m,			selectlayout,		{.v = &layouts[1]} },
-//	{ MODKEY,					XK_t,			incnmaster,			{.i = +1} },
-//	{ MODKEY|ShiftMask,			XK_t,			incnmaster,			{.i = +1} },
-//}
-
 static void selectlayout(const Arg *arg);
 static void incnmaster(const Arg *arg);
 
