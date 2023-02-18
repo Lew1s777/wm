@@ -17,8 +17,12 @@ Requirements
 
 Installation
 ---
-After cloning,go to the source directory with
+After cloning,trust the repo if necessary
+```
+git config --global --add safe.directory [full path to your dwm directory]
+```
 
+Then go to the source directory with
 ```
 cd dwm
 ```
