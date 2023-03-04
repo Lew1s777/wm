@@ -1,5 +1,5 @@
 #include <X11/XF86keysym.h>
-//#include "disabledfunctions.c"
+//#include "disabled.c"
 #define MODKEY Mod4Mask
 #define SH(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 #define TAGKEYS(KEY, TAG, cmd) \
@@ -65,7 +65,7 @@ static const Rule rules[]					= {
 	{"Chromium",		NULL,			NULL,					1 << 10,	0,			0,			0,			-1 },
 	{ NULL,				NULL,			"crx_",					0,			1,			0,			0,			-1 },
 	{ NULL,				NULL,			"Electronic WeChat",	1 << 6,		0,			0,			0,			-1 },
-	{ NULL,				"icalingua",	NULL,					1 << 12,	0,			0,			0,			-1 },
+//	{ NULL,				"icalingua",	NULL,					1 << 12,	0,			0,			0,			-1 },
 	{ NULL,				"wechat.exe",	NULL,					1 << 6,		0,			0,			0,			-1 },
 	{ NULL,				"wxwork.exe",	NULL,					1 << 6,		0,			0,			0,			-1 },
 	{ NULL,				NULL,			"broken",				0,			1,			0,			0,			-1 },
@@ -96,11 +96,10 @@ static Key keys[] = {
 	TAGKEYS(XK_p,	9,		"exec /opt/YesPlayMusic/yesplaymusic")
 	TAGKEYS(XK_c,	10,		"chromium")
 	TAGKEYS(XK_v,	11,		0)
-	TAGKEYS(XK_t,	12,		"icalingua")
+	TAGKEYS(XK_t,	12,		"linuxqq")
 	/* modifier					key				function			argument				comment */
 	{ MODKEY,					XK_w,			focusstack,			{.i = +1} },			//switch win selection
-	{ MODKEY,					XK_Up,			focusstack,			{.i = -1} },
-	{ MODKEY,					XK_Down,		focusstack,			{.i = +1} },
+//	{ MODKEY,					XK_Down,		focusstack,			{.i = -1} },
 	{ MODKEY|ShiftMask,			XK_a,			viewtoleft,			{0} },					//tag--
 	{ MODKEY|ShiftMask,			XK_s,			viewtoright,		{0} },					//tag++
 	{ MODKEY|ControlMask,		XK_a,			tagtoleft,			{0} },					//client tag--
@@ -113,14 +112,14 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,			XK_h,			restorewin,			{0} },					//restore minimized window
 	{ MODKEY|ControlMask,		XK_h,			hideotherwins,		{0} },
 	{ MODKEY|ControlMask,		XK_Return,		zoom,				{0} },					//set master win
-	{ MODKEY|ControlMask,		XK_Up,			movewin,			{.ui = UP} },			//movewin
-	{ MODKEY|ControlMask,		XK_Down,		movewin,			{.ui = DOWN} },
-	{ MODKEY|ControlMask,		XK_Left,		movewin,			{.ui = LEFT} },
-	{ MODKEY|ControlMask,		XK_Right,		movewin,			{.ui = RIGHT} },
-	{ MODKEY|Mod1Mask,			XK_Up,			resizewin,			{.ui = V_REDUCE} },		//winreset
-	{ MODKEY|Mod1Mask,			XK_Down,		resizewin,			{.ui = V_EXPAND} },
-	{ MODKEY|Mod1Mask,			XK_Left,		resizewin,			{.ui = H_REDUCE} },
-	{ MODKEY|Mod1Mask,			XK_Right,		resizewin,			{.ui = H_EXPAND} },
+	{ MODKEY,					XK_Up,			movewin,			{.ui = UP} },			//movewin
+	{ MODKEY,					XK_Down,		movewin,			{.ui = DOWN} },
+	{ MODKEY,					XK_Left,		movewin,			{.ui = LEFT} },
+	{ MODKEY,					XK_Right,		movewin,			{.ui = RIGHT} },
+	{ MODKEY|ShiftMask,			XK_Up,			resizewin,			{.ui = V_REDUCE} },		//winresize
+	{ MODKEY|ShiftMask,			XK_Down,		resizewin,			{.ui = V_EXPAND} },
+	{ MODKEY|ShiftMask,			XK_Left,		resizewin,			{.ui = H_REDUCE} },
+	{ MODKEY|ShiftMask,			XK_Right,		resizewin,			{.ui = H_EXPAND} },
 	{ 0,						XK_F11,			fullscreen,			{0} },					//toggle fullscreen
 	{ MODKEY,					XK_g,			toggleglobal,		{0} },					//toggle global
 	{ MODKEY,					XK_f,			togglefloating,		{0} },					//toggle window float
@@ -137,17 +136,18 @@ static Key keys[] = {
 	{ MODKEY,					XK_Return,		spawn,				SH("st") },							//st
 	{ MODKEY|ShiftMask,			XK_Return,		spawn,				SH("st -c float") },
 	{ MODKEY,					XK_r,			spawn,				SH("rofi -show run") },				//rofi menu
-	{ 0,						XK_Print,		spawn,				SH("flameshot gui") },				//flameshot
-	{ MODKEY,					XK_k,			spawn,				SH("kitty") },						//screenkey
+	{ 0,						XK_Print,		spawn,				SH("flameshot gui -d 100") },		//flameshot(delay due to recent bug of flameshot)
+	{ MODKEY,					XK_k,			spawn,				SH("kitty") },						//kitty
 	{ MODKEY|ShiftMask,			XK_k,			spawn,				SH("~/scripts/sck-tog.sh") },		//screenkey
-	{ 0,			XF86XK_AudioRaiseVolume,	spawn,				SH("~/scripts/vol-up.sh") },			//vol++
+	{ 0,			XF86XK_AudioRaiseVolume,	spawn,				SH("~/scripts/vol-up.sh") },		//vol++
 	{ 0,			XF86XK_AudioLowerVolume,	spawn,				SH("~/scripts/vol-down.sh") },		//vol--
-	{ MODKEY,					XK_l,			spawn,				SH("~/scripts/closemonitor.sh") },   //close monitor
+	{ MODKEY,					XK_l,			spawn,				SH("~/scripts/closemonitor.sh") },  //close monitor
 	{ MODKEY|ShiftMask,			XK_l,			spawn,				SH("systemctl suspend") },			//close monitor
 /*	//also uncomment line2 to enable function below
 	{ MODKEY|ShiftMask,			XK_m,			selectlayout,		{.v = &layouts[1]} },	//toggle magicgrid
 	{ MODKEY,					XK_t,			incnmaster,			{.i = +1} },
 	{ MODKEY|ShiftMask,			XK_t,			incnmaster,			{.i = +1} },
+	{ MODKEY,					XK_u,			toggleborder,		{0} },
 */
 };
 

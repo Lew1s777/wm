@@ -27,12 +27,12 @@ Then go to the source directory with
 cd dwm
 ```
 
-Then copy ```config.def.h``` to ```config.h``` for default configuration file with
+Then copy ```config.def.h``` to ```config.h``` as the default configuration file.
 ```
 cp config.h config.def.h
 ```
 
-Edit config.mk to match your local setup (dwm is installed into the /usr/local namespace by default).
+Edit ```config.mk``` to match your local setup (dwm is installed into the /usr/local namespace by default).
 
 Afterwards enter the following command to build and install dwm (if necessary as root):
 ```
@@ -53,6 +53,11 @@ In order to connect dwm to a specific display, make sure that the DISPLAY enviro
 DISPLAY=foo.bar:1 exec dwm
 ```
 
+Troblem shotting
+---
+#### crashing or some other random error ####
+replace ```-Ofast``` in ```config.mk``` to ```-O2```
+
 Tips
 ---
 
@@ -72,8 +77,15 @@ If you do not want to spawn too many PIDs by ```xsetroot``` command,use command 
 gcc dwm-setstatus.c -lX11 -o dwm-setstatus -O3 -march=native -pipe
 ```
 
+#### java gui ####
+```
+export AWT_TOOLKIT=MToolkit
+export _JAVA_AWT_WM_NONREPARENTING=1
+wmname LG3D
+```
+
 #### Make dwm visible to session manager (e.p. sddm,gdm) ####
-This build of dwm does not generate a ```.desktop``` file for session manager identification as I do not use a session manager.To create it,create ```/use/share/xsessions/dwm.desktop``` with content below
+This build of dwm does not generate a ```.desktop``` file for session manager identification as I do not use a session manager. To create it,create ```/use/share/xsessions/dwm.desktop``` with content below
 ```
 [Desktop Entry]
 Encoding=UTF-8
@@ -82,13 +94,6 @@ Comment=dynamic window manager
 Exec=/usr/local/bin/dwm
 Icon=dwm
 Type=XSession
-```
-
-#### java gui ####
-```
-export AWT_TOOLKIT=MToolkit
-export _JAVA_AWT_WM_NONREPARENTING=1
-wmname LG3D
 ```
 
 #### autostart ####
@@ -119,5 +124,4 @@ This only works on this branch of dwm.
 
 #### icon ####
 Get icons at https://www.nerdfonts.com/cheat-sheet
-
 

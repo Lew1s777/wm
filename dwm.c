@@ -549,7 +549,7 @@ buttonpress(XEvent *e)
     Monitor *m;
     XButtonPressedEvent *ev = &e->xbutton;
 
-    // 判断鼠标点击的位置
+    // detect where mouse click
     click = ClkRootWin;
     /* focus monitor if necessary */
     if ((m = wintomon(ev->window)) && m != selmon) {
@@ -557,7 +557,7 @@ buttonpress(XEvent *e)
         selmon = m;
         focus(NULL);
     }
-    if (ev->window == selmon->barwin) { // 点击在bar上
+    if (ev->window == selmon->barwin) { // click on bar
         i = x = 0;
         blw = TEXTW(selmon->ltsymbol);
         if (selmon->isoverview) {

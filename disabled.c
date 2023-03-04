@@ -1,5 +1,6 @@
 static void selectlayout(const Arg *arg);
 static void incnmaster(const Arg *arg);
+static void toggleborder(const Arg *arg);
 
 void
 selectlayout(const Arg *arg)
@@ -19,4 +20,22 @@ incnmaster(const Arg *arg)
         nmaster = 1;
     selmon->nmaster = selmon->pertag->nmasters[selmon->pertag->curtag] = MAX(nmaster, 1);
     arrange(selmon);
+}
+
+void
+toggleborder(const Arg *arg)
+{//Strange flicker with picom
+    if (!selmon->sel)
+        return;
+    selmon->sel->isnoborder ^= 1;
+    selmon->sel->bw = selmon->sel->isnoborder ? 0 : borderpx;
+    int diff = (selmon->sel->isnoborder ? -1 : 1) * borderpx;
+    resizeclient(
+        selmon->sel,
+        selmon->sel->x - diff,
+        selmon->sel->y - diff,
+        selmon->sel->w,
+        selmon->sel->h
+    );
+    focus(NULL);
 }
