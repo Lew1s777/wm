@@ -111,6 +111,11 @@ ExecStart=-/usr/bin/agetty --autologin [user name] --noclear %I $TERM
 ```
 [ $(tty) = "/dev/tty1" ] && cd ~ && startx
 ```
+if you are using fish,they should be
+```
+set TTY1 (tty)
+[ "$TTY1" = "/dev/tty1" ] && exec sway
+```
 
 #### picom ####
 Prevent rounded statusbar

@@ -1,5 +1,5 @@
 #include <X11/XF86keysym.h>
-//#include "disabled.c"
+//#include "disabled.c"													//for disabled functions
 #define MODKEY Mod4Mask
 #define SH(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 #define TAGKEYS(KEY, TAG, cmd) \
@@ -7,10 +7,10 @@
 	{ MODKEY|ShiftMask,		KEY,	tag,		{.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask,	KEY,	toggleview,	{.ui = 1 << TAG} }, \
 
-static int showsystray						= 1;						//show systemtray
+static int showsystray						= 0;						//show systemtray
 static const int newclientathead			= 0;						//stack of new win
 static const unsigned int borderpx			= 2;						//size of border/pixel
-static const unsigned int systraypinning	= 0;						//the monitor systemtray show(0=all)
+static const unsigned int systraypinning	= 1;						//which monitor systemtray stay(0=all)
 static const unsigned int systrayspacing	= 1;						//systemtray gap
 static int gappi							= 12;						//win-win gap
 static int gappo							= 12;						//win-edge gap
@@ -27,29 +27,14 @@ static const unsigned int OPAQUE			= 0xffU;
 static const unsigned int baralpha			= 0xc0;						//statusbar transparency
 static const unsigned int borderalpha		= 0xdd;						//border transparency
 static const char *autostartscript			= "~/scripts/autostart.sh";	//autostart script path
-static const char *colors[][3]				= {							//color conf ColFg, ColBg, ColBorder
-	[SchemeNorm]		= { "#bd93f9",	"#333333",	"#444444" },
-	[SchemeSel]			= { "#6666ff",	"#333333", 	"#bd93f9" },
-	[SchemeSelGlobal]	= { "#6666ff",	"#333333", 	"#bd93f9" },
-	[SchemeHid]			= { "#bd93f9",	NULL,		NULL },
-	[SchemeSystray]		= { NULL,		"#434343",	NULL },
-	[SchemeUnderline]	= { "#6666ff",	NULL,		NULL },
-	[SchemeNormTag]		= { "#bd93f9", 	"#333333",	NULL },
-	[SchemeSelTag]		= { "#6666ff", 	"#333333", 	NULL },
-};
-static const unsigned int alphas[][3]		= {							//opacity conf ColFg, ColBg, ColBorder
-	[SchemeNorm]		= { OPAQUE,		baralpha,	borderalpha },
-	[SchemeSel]			= { OPAQUE, 	baralpha, 	borderalpha },
-	[SchemeSelGlobal]	= { OPAQUE, 	baralpha, 	borderalpha },
-	[SchemeNormTag]		= { OPAQUE, 	baralpha, 	borderalpha },
-	[SchemeSelTag]		= { OPAQUE, 	baralpha, 	borderalpha },
-};
-static const char *fonts[]					= {							//set font
+#include "color/alpha.c"												//color
+static const char *fonts[]					= {							//font
 	"Minecraft:size=16",
 	"SauceCodePro Nerd Font Mono:size=16",
 	"monospace:size=16"
 };
 
+static const char *tags[]					= { "", "", "", "", "", "﬐", "גּ", "" ,"", "", "", "", "ﬄ"};
 static const char *overviewtag = "overview";
 static const Layout overviewlayout = { "舘",  overview };
 static const Layout layouts[] = {
@@ -57,29 +42,32 @@ static const Layout layouts[] = {
 	{ "﩯",	magicgrid },												//table
 	//{ "",	NULL },													//float
 };
-static const char *tags[]					= { "", "", "", "", "", "﬐", "גּ", "" ,"", "", "", "", "ﬄ"};
+
 static const Rule rules[]					= {
     /* class			instance		title					tags mask	isfloating	isglobal	isnoborder	monitor */
-	{"java",			NULL,			NULL,					0,			1,			0,			0,			-1 },
+	{"float",			NULL,			NULL,					0,			1,			0,			0,			-1 },
+	{"noborder",		NULL,			NULL,					0,			1,			0,			1,			-1 },
+	{"global",			NULL,			NULL,					TAGMASK,	1,			1,			0,			-1 },
+	{NULL,				"java",			NULL,					0,			1,			0,			0,			-1 },
+	{NULL,				"javaw",		NULL,					0,			1,			0,			0,			-1 },
 	{"yesplaymusic",	NULL,			NULL,					1 << 9,		0,			0,			0,			-1 },
 	{"Chromium",		NULL,			NULL,					1 << 10,	0,			0,			0,			-1 },
-	{ NULL,				NULL,			"crx_",					0,			1,			0,			0,			-1 },
-	{ NULL,				NULL,			"Electronic WeChat",	1 << 6,		0,			0,			0,			-1 },
-//	{ NULL,				"icalingua",	NULL,					1 << 12,	0,			0,			0,			-1 },
-	{ NULL,				"wechat.exe",	NULL,					1 << 6,		0,			0,			0,			-1 },
-	{ NULL,				"wxwork.exe",	NULL,					1 << 6,		0,			0,			0,			-1 },
-	{ NULL,				NULL,			"broken",				0,			1,			0,			0,			-1 },
-	{ NULL,				NULL,			"图片查看",				0,			1,			0,			0,			-1 },
-	{ NULL,				NULL,			"图片预览",				0,			1,			0,			0,			-1 },
-	{ NULL,				NULL,			"Hello Minecraft! Launcher v3.5.3.229",
-																0,			1,			0,			0,			-1 },
-	{"Minecraft 1.8.9",	NULL,			NULL,					0,			1,			0,			0,			-1 },
+	{NULL,				NULL,			"crx_",					0,			1,			0,			0,			-1 },
+	{NULL,				NULL,			"Electronic WeChat",	1 << 6,		0,			0,			0,			-1 },
+	{"QQ",				NULL,			NULL,					1 << 12,	0,			0,			0,			-1 },
+	{NULL,				"wechat.exe",	NULL,					1 << 6,		0,			0,			0,			-1 },
+	{NULL,				"wxwork.exe",	NULL,					1 << 6,		0,			0,			0,			-1 },
+	{NULL,				NULL,			"broken",				0,			1,			0,			0,			-1 },
+	{NULL,				NULL,			"图片查看",				0,			1,			0,			0,			-1 },
+	{NULL,				NULL,			"图片预览",				0,			1,			0,			0,			-1 },
 	{"flameshot",		NULL,			NULL,					0,			1,			0,			0,			-1 },
 	{"wemeetapp",		NULL,			NULL,					TAGMASK,	1,			1,			0,			-1 },
 	{"mangoapp",		NULL,			NULL,					TAGMASK,	1,			1,			0,          -1 },
-	{"float",			NULL,			NULL,					0,			1,			0,			0,			-1 },//for odd client,the same below
-	{"noborder",		NULL,			NULL,					0,			1,			0,			1,			-1 },
-	{"global",			NULL,			NULL,					TAGMASK,	1,			1,			0,			-1 },
+	{"Minecraft 1.8.9",	NULL,			NULL,					0,			1,			0,			0,			-1 },
+	{"org.jackhuang.hmcl.Launcher",				
+						NULL,			NULL,					0,			1,			0,			0,			-1 },
+	{NULL,				NULL,			"Lunar Client (1.8.9-4a6937e/master)",
+																0,			1,			0,			0,			-1 },
 };
 
 static Key keys[] = {
@@ -97,6 +85,7 @@ static Key keys[] = {
 	TAGKEYS(XK_c,	10,		"chromium")
 	TAGKEYS(XK_v,	11,		0)
 	TAGKEYS(XK_t,	12,		"linuxqq")
+
 	/* modifier					key				function			argument				comment */
 	{ MODKEY,					XK_w,			focusstack,			{.i = +1} },			//switch win selection
 //	{ MODKEY,					XK_Down,		focusstack,			{.i = -1} },
@@ -120,8 +109,9 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,			XK_Down,		resizewin,			{.ui = V_EXPAND} },
 	{ MODKEY|ShiftMask,			XK_Left,		resizewin,			{.ui = H_REDUCE} },
 	{ MODKEY|ShiftMask,			XK_Right,		resizewin,			{.ui = H_EXPAND} },
-	{ 0,						XK_F11,			fullscreen,			{0} },					//toggle fullscreen
 	{ MODKEY,					XK_g,			toggleglobal,		{0} },					//toggle global
+	{ 0,						XK_F11,			fullscreen,			{0} },					//toggle fullscreen
+	{ MODKEY|ControlMask,		XK_f,			fullscreen,			{0} },
 	{ MODKEY,					XK_f,			togglefloating,		{0} },					//toggle window float
 	{ MODKEY|ShiftMask,			XK_f,			toggleallfloating,	{0} },					//toggle all window float
 	{ MODKEY|ShiftMask,			XK_Tab,			toggleoverview,		{0} },					//overview mode
@@ -136,14 +126,14 @@ static Key keys[] = {
 	{ MODKEY,					XK_Return,		spawn,				SH("st") },							//st
 	{ MODKEY|ShiftMask,			XK_Return,		spawn,				SH("st -c float") },
 	{ MODKEY,					XK_r,			spawn,				SH("rofi -show run") },				//rofi menu
-	{ 0,						XK_Print,		spawn,				SH("flameshot gui -d 100") },		//flameshot(delay due to recent bug of flameshot)
+	{ 0,						XK_Print,		spawn,				SH("flameshot gui -d 100") },		//flameshot
 	{ MODKEY,					XK_k,			spawn,				SH("kitty") },						//kitty
 	{ MODKEY|ShiftMask,			XK_k,			spawn,				SH("~/scripts/sck-tog.sh") },		//screenkey
 	{ 0,			XF86XK_AudioRaiseVolume,	spawn,				SH("~/scripts/vol-up.sh") },		//vol++
 	{ 0,			XF86XK_AudioLowerVolume,	spawn,				SH("~/scripts/vol-down.sh") },		//vol--
 	{ MODKEY,					XK_l,			spawn,				SH("~/scripts/closemonitor.sh") },  //close monitor
 	{ MODKEY|ShiftMask,			XK_l,			spawn,				SH("systemctl suspend") },			//close monitor
-/*	//also uncomment line2 to enable function below
+/*	//also uncomment line2 to enable these functions
 	{ MODKEY|ShiftMask,			XK_m,			selectlayout,		{.v = &layouts[1]} },	//toggle magicgrid
 	{ MODKEY,					XK_t,			incnmaster,			{.i = +1} },
 	{ MODKEY|ShiftMask,			XK_t,			incnmaster,			{.i = +1} },
