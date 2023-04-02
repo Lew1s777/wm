@@ -114,7 +114,7 @@ ExecStart=-/usr/bin/agetty --autologin [user name] --noclear %I $TERM
 if you are using fish,they should be
 ```
 set TTY1 (tty)
-[ "$TTY1" = "/dev/tty1" ] && exec dwm
+[ "$TTY1" = "/dev/tty1" ] && startx
 ```
 
 #### picom ####
