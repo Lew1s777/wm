@@ -25,6 +25,7 @@ static const int   nmaster					= 1;						//number of win at master workspace
 static const unsigned int snap				= 10;						//border width
 static const unsigned int OPAQUE			= 0xffU;
 static const unsigned int baralpha			= 0xc0;						//statusbar transparency
+//static const unsigned int baralpha		= 0xd0;						//statusbar transparency
 static const unsigned int borderalpha		= 0xdd;						//border transparency
 static const char *autostartscript			= "~/scripts/autostart.sh";	//autostart script path
 #include "color/alpha.c"												//color
@@ -110,8 +111,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,			XK_Left,		resizewin,			{.ui = H_REDUCE} },
 	{ MODKEY|ShiftMask,			XK_Right,		resizewin,			{.ui = H_EXPAND} },
 	{ MODKEY,					XK_g,			toggleglobal,		{0} },					//toggle global
-	{ 0,						XK_F11,			fullscreen,			{0} },					//toggle fullscreen
-	{ MODKEY|ControlMask,		XK_f,			fullscreen,			{0} },
+	{ MODKEY,					XK_F11,			fullscreen,			{0} },					//toggle fullscreen
 	{ MODKEY,					XK_f,			togglefloating,		{0} },					//toggle window float
 	{ MODKEY|ShiftMask,			XK_f,			toggleallfloating,	{0} },					//toggle all window float
 	{ MODKEY|ShiftMask,			XK_Tab,			toggleoverview,		{0} },					//overview mode
@@ -129,6 +129,7 @@ static Key keys[] = {
 	{ 0,						XK_Print,		spawn,				SH("flameshot gui -d 100") },		//flameshot
 	{ MODKEY,					XK_k,			spawn,				SH("kitty") },						//kitty
 	{ MODKEY|ShiftMask,			XK_k,			spawn,				SH("~/scripts/sck-tog.sh") },		//screenkey
+	{ MODKEY|ShiftMask,			XK_semicolon,	spawn,				SH("~/scripts/picom-tog.sh") },		//toggle compositor
 	{ 0,			XF86XK_AudioRaiseVolume,	spawn,				SH("~/scripts/vol-up.sh") },		//vol++
 	{ 0,			XF86XK_AudioLowerVolume,	spawn,				SH("~/scripts/vol-down.sh") },		//vol--
 	{ MODKEY,					XK_l,			spawn,				SH("~/scripts/closemonitor.sh") },  //close monitor
