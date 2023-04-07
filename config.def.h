@@ -28,7 +28,23 @@ static const unsigned int baralpha			= 0xc0;						//statusbar transparency
 //static const unsigned int baralpha		= 0xd0;						//statusbar transparency
 static const unsigned int borderalpha		= 0xdd;						//border transparency
 static const char *autostartscript			= "~/scripts/autostart.sh";	//autostart script path
-#include "color/alpha.c"												//color
+static const char *colors[][3]				= {							//color conf ColFg, ColBg, ColBorder
+	[SchemeNorm]		= { "#bd93f9",	NULL,	"#444444" },
+	[SchemeSel]			= { "#6666ff",	NULL, 	"#bd93f9" },
+	[SchemeSelGlobal]	= { "#6666ff",	NULL, 	"#bd93f9" },
+	[SchemeHid]			= { "#bd93f9",	NULL,	NULL },
+	[SchemeSystray]		= { NULL,		"#434343",	NULL },				//alpha systemtray currently not supported
+	[SchemeUnderline]	= { "#6666ff",	NULL,	NULL },
+	[SchemeNormTag]		= { "#bd93f9", 	NULL,	NULL },
+	[SchemeSelTag]		= { "#6666ff", 	NULL, 	NULL },
+};
+static const unsigned int alphas[][3]		= {							//opacity conf ColFg, ColBg, ColBorder
+	[SchemeNorm]		= { OPAQUE,		baralpha,	borderalpha },
+	[SchemeSel]			= { OPAQUE, 	baralpha, 	borderalpha },
+	[SchemeSelGlobal]	= { OPAQUE, 	baralpha, 	borderalpha },
+	[SchemeNormTag]		= { OPAQUE, 	baralpha, 	borderalpha },
+	[SchemeSelTag]		= { OPAQUE, 	baralpha, 	borderalpha },
+};
 static const char *fonts[]					= {							//font
 	"Minecraft:size=16",
 	"SauceCodePro Nerd Font Mono:size=16",
@@ -73,7 +89,7 @@ static const Rule rules[]					= {
 
 static Key keys[] = {
 /* key				tag		cmd1 */
-	TAGKEYS(XK_1,	0,		"st -c float")
+	TAGKEYS(XK_1,	0,		0)										//"st -c float"
 	TAGKEYS(XK_2,	1,		0)
 	TAGKEYS(XK_3,	2,		0)
 	TAGKEYS(XK_4,	3,		0)
@@ -85,7 +101,7 @@ static Key keys[] = {
 	TAGKEYS(XK_p,	9,		"exec /opt/YesPlayMusic/yesplaymusic")
 	TAGKEYS(XK_c,	10,		"chromium")
 	TAGKEYS(XK_v,	11,		0)
-	TAGKEYS(XK_t,	12,		"linuxqq")
+	TAGKEYS(XK_t,	12,		0)
 
 	/* modifier					key				function			argument				comment */
 	{ MODKEY,					XK_w,			focusstack,			{.i = +1} },			//switch win selection

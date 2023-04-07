@@ -74,7 +74,7 @@ Also see [my status bar script](https://github.com/Lew1s777/dwm-statusbar)
 
 If you do not want to spawn too many PIDs by ```xsetroot``` command,use command below to compile a C program ```dwm-setstatus``` and pipe statusbar content in it instead.
 ```
-gcc dwm-setstatus.c -lX11 -o dwm-setstatus -O3 -march=native -pipe
+gcc dwm-setstatus.c -lX11 -o dwm-setstatus -O3 -march=native -pipe --lto
 ```
 
 #### java gui ####
