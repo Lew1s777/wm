@@ -1,6 +1,9 @@
 Intro
 ---
 This is my build of dwm
+
+***Currently working on patching a statusbar patch,work will be commit to this github repo at about next Saturday***
+
 <img src='https://github.com/Lew1s777/dwm/blob/img/screenshot.jpg'/>
 
 Clone

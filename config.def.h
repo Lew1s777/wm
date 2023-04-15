@@ -89,7 +89,7 @@ static const Rule rules[]					= {
 
 static Key keys[] = {
 /* key				tag		cmd1 */
-	TAGKEYS(XK_1,	0,		0)										//"st -c float"
+	TAGKEYS(XK_1,	0,		0)
 	TAGKEYS(XK_2,	1,		0)
 	TAGKEYS(XK_3,	2,		0)
 	TAGKEYS(XK_4,	3,		0)
@@ -117,7 +117,7 @@ static Key keys[] = {
 	{ MODKEY,					XK_h,			hidewin,			{0} },					//minimize window
 	{ MODKEY|ShiftMask,			XK_h,			restorewin,			{0} },					//restore minimized window
 	{ MODKEY|ControlMask,		XK_h,			hideotherwins,		{0} },
-	{ MODKEY|ControlMask,		XK_Return,		zoom,				{0} },					//set master win
+	{ MODKEY|ShiftMask,			XK_Return,		zoom,				{0} },					//set master win
 	{ MODKEY,					XK_Up,			movewin,			{.ui = UP} },			//movewin
 	{ MODKEY,					XK_Down,		movewin,			{.ui = DOWN} },
 	{ MODKEY,					XK_Left,		movewin,			{.ui = LEFT} },
@@ -131,6 +131,7 @@ static Key keys[] = {
 	{ MODKEY,					XK_f,			togglefloating,		{0} },					//toggle window float
 	{ MODKEY|ShiftMask,			XK_f,			toggleallfloating,	{0} },					//toggle all window float
 	{ MODKEY|ShiftMask,			XK_Tab,			toggleoverview,		{0} },					//overview mode
+	{ MODKEY|ControlMask,		XK_b,			toggleborder,		{0} },
 	{ MODKEY,					XK_Tab,			view,				{0} },
 	{ MODKEY|ControlMask,		XK_Tab,			setlayout,			{0} },					//toggle layouts
 	{ MODKEY|ShiftMask,			XK_o,			showonlyorall,		{0} },					//toggle only visible/monocle
@@ -140,7 +141,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,			XK_q,			killclient,			{0} },					//killwin
 	{ MODKEY|ControlMask,		XK_q,			spawn,				SH("kill -9 $(xprop | grep _NET_WM_PID | awk '{print $3}')") },
 	{ MODKEY,					XK_Return,		spawn,				SH("st") },							//st
-	{ MODKEY|ShiftMask,			XK_Return,		spawn,				SH("st -c float") },
+	{ MODKEY,					XK_slash,		spawn,				SH("st -c float") },
 	{ MODKEY,					XK_r,			spawn,				SH("rofi -show run") },				//rofi menu
 	{ 0,						XK_Print,		spawn,				SH("flameshot gui -d 100") },		//flameshot
 	{ MODKEY,					XK_k,			spawn,				SH("kitty") },						//kitty
@@ -154,7 +155,6 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,			XK_m,			selectlayout,		{.v = &layouts[1]} },	//toggle magicgrid
 	{ MODKEY,					XK_t,			incnmaster,			{.i = +1} },
 	{ MODKEY|ShiftMask,			XK_t,			incnmaster,			{.i = +1} },
-	{ MODKEY,					XK_u,			toggleborder,		{0} },
 */
 };
 

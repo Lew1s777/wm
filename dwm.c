@@ -295,6 +295,7 @@ static void togglebar(const Arg *arg);
 static void togglesystray();
 static void togglefloating(const Arg *arg);
 static void toggleallfloating(const Arg *arg);
+static void toggleborder(const Arg *arg);
 
 static void unfocus(Client *c, int setfocus);
 static void unmanage(Client *c, int destroyed);
@@ -2618,6 +2619,24 @@ toggleglobal(const Arg *arg)
         return;
     selmon->sel->isglobal ^= 1;
     selmon->sel->tags = selmon->sel->isglobal ? TAGMASK : selmon->tagset[selmon->seltags];
+    focus(NULL);
+}
+
+void
+toggleborder(const Arg *arg)
+{//Strange flicker with picom
+    if (!selmon->sel)
+        return;
+    selmon->sel->isnoborder ^= 1;
+    selmon->sel->bw = selmon->sel->isnoborder ? 0 : borderpx;
+    int diff = (selmon->sel->isnoborder ? -1 : 1) * borderpx;
+    resizeclient(
+        selmon->sel,
+        selmon->sel->x - diff,
+        selmon->sel->y - diff,
+        selmon->sel->w,
+        selmon->sel->h
+    );
     focus(NULL);
 }
 
