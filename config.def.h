@@ -143,7 +143,7 @@ static Key keys[] = {
 	{ MODKEY,					XK_Return,		spawn,				SH("st") },							//st
 	{ MODKEY,					XK_slash,		spawn,				SH("st -c float") },
 	{ MODKEY,					XK_r,			spawn,				SH("rofi -show run") },				//rofi menu
-	{ 0,						XK_Print,		spawn,				SH("flameshot gui -d 100") },		//flameshot
+	{ 0,						XK_Print,		spawn,				SH("flameshot gui") },				//flameshot
 	{ MODKEY,					XK_k,			spawn,				SH("kitty") },						//kitty
 	{ MODKEY|ShiftMask,			XK_k,			spawn,				SH("~/scripts/sck-tog.sh") },		//screenkey
 	{ MODKEY|ShiftMask,			XK_semicolon,	spawn,				SH("~/scripts/picom-tog.sh") },		//toggle compositor
