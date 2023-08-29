@@ -2,11 +2,11 @@
 # 电池电量
 # 需要安装acpi或者upower
 
-tempfile=$(cd $(dirname $0);cd ..;pwd)/temp
+tempfile=/tmp/dwm
 
 this=_bat
-icon_color="^c#3B001B^^b#4865660x88^"
-text_color="^c#3B001B^^b#4865660x99^"
+icon_color="^c#bd93f9^^b#3333330xc0^"
+text_color="^c#bd93f9^^b#3333330xc0^"
 signal=$(echo "^s$this^" | sed 's/_//')
 
 get_by_acpi() {
@@ -24,27 +24,27 @@ get_by_upower() {
     [ ! "$(command -v upower)" ] && echo command not found: upower && return
     bat=$(upower -e | grep BAT)
     bat_text=$(upower -i $bat | awk '/percentage/ {print $2}' | grep -Eo '[0-9]+')
-    [ -n "$(upower -i $bat | grep 'state:.*fully-charged')" ] && charge_icon=" "
+    [ -n "$(upower -i $bat | grep 'state:.*fully-charged')" ] && charge_icon="🔌"
 }
 
 update() {
     get_by_acpi
     get_by_upower
     [ -z $bat_text ] && bat_text=0
-    if   [ "$bat_text" -ge 95 ]; then bat_icon=""; charge_icon="";
-    elif [ "$bat_text" -ge 90 ]; then bat_icon="";
-    elif [ "$bat_text" -ge 80 ]; then bat_icon="";
-    elif [ "$bat_text" -ge 70 ]; then bat_icon="";
-    elif [ "$bat_text" -ge 60 ]; then bat_icon="";
-    elif [ "$bat_text" -ge 50 ]; then bat_icon="";
-    elif [ "$bat_text" -ge 40 ]; then bat_icon="";
-    elif [ "$bat_text" -ge 30 ]; then bat_icon="";
-    elif [ "$bat_text" -ge 20 ]; then bat_icon="";
-    elif [ "$bat_text" -ge 10 ]; then bat_icon="";
-    else bat_icon=""; fi
+    if   [ "$bat_text" -ge 95 ]; then bat_icon=" 󱟢"; charge_icon="🔌";
+    elif [ "$bat_text" -ge 90 ]; then bat_icon="󰂂";
+    elif [ "$bat_text" -ge 80 ]; then bat_icon="󰂁";
+    elif [ "$bat_text" -ge 70 ]; then bat_icon="󰂀";
+    elif [ "$bat_text" -ge 60 ]; then bat_icon="󰁿";
+    elif [ "$bat_text" -ge 50 ]; then bat_icon="󰁾";
+    elif [ "$bat_text" -ge 40 ]; then bat_icon="󰁽";
+    elif [ "$bat_text" -ge 30 ]; then bat_icon="󰁼";
+    elif [ "$bat_text" -ge 20 ]; then bat_icon="󰁻";
+    elif [ "$bat_text" -ge 10 ]; then bat_icon="󰁺";
+    else bat_icon="󰂃"; fi
 
     icon=" $charge_icon$bat_icon "
-    text=" $bat_text% "
+    text=" $bat_text%丨"
 
     sed -i '/^export '$this'=.*$/d' $tempfile
     printf "export %s='%s%s%s%s%s'\n" $this "$signal" "$icon_color" "$icon" "$text_color" "$text" >> $tempfile

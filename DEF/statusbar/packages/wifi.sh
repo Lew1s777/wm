@@ -1,32 +1,26 @@
 #! /bin/bash
 
-tempfile=$(cd $(dirname $0);cd ..;pwd)/temp
+tempfile=/tmp/dwm
 
 this=_wifi
-icon_color="^c#000080^^b#3870560x88^"
-text_color="^c#000080^^b#3870560x99^"
+icon_color="^c#bd93f9^^b#3333330xc0^"
+text_color="^c#bd93f9^^b#3333330xc0^"
 signal=$(echo "^s$this^" | sed 's/_//')
 
 # check
 [ ! "$(command -v nmcli)" ] && echo command not found: nmcli && exit
 
-# 中英文适配
-wifi_grep_keyword="已连接 到"
-wifi_disconnected="未连接"
-wifi_disconnected_notify="未连接到网络"
-if [ "$LANG" != "zh_CN.UTF-8" ]; then
-    wifi_grep_keyword="connected to"
-    wifi_disconnected="disconnected"
-    wifi_disconnected_notify="disconnected"
-fi
+wifi_grep_keyword="connected to"
+wifi_disconnected="disconnected"
+wifi_disconnected_notify="disconnected"
 
 update() {
-    wifi_icon="褐"
+    wifi_icon="󰖩"
     wifi_text=$(nmcli | grep "$wifi_grep_keyword" | sed "s/$wifi_grep_keyword//" | awk '{print $2}' | paste -d " " -s)
     [ "$wifi_text" = "" ] && wifi_text=$wifi_disconnected
 
-    icon=" $wifi_icon "
-    text=" $wifi_text "
+    icon="$wifi_icon "
+    text=" $wifi_text丨"
 
     sed -i '/^export '$this'=.*$/d' $tempfile
     printf "export %s='%s%s%s%s%s'\n" $this "$signal" "$icon_color" "$icon" "$text_color" "$text" >> $tempfile
@@ -42,7 +36,9 @@ call_nm() {
     pid2=`ps aux | grep 'st -t statusutil_nm' | grep -v grep | awk '{print $2}'`
     mx=`xdotool getmouselocation --shell | grep X= | sed 's/X=//'`
     my=`xdotool getmouselocation --shell | grep Y= | sed 's/Y=//'`
-    kill $pid1 && kill $pid2 || st -t statusutil_nm -g 60x25+$((mx - 240))+$((my + 20)) -c FGN -C "#222D31@4" -e 'nmtui-connect'
+    #kill $pid1 && kill $pid2 || st -t statusutil_nm -g 60x25+$((mx - 240))+$((my + 20)) -c FGN -C "#222D31@4" -e 'nmtui-connect'
+    #kill $pid1 && kill $pid2 || st -t statusutil_nm -g 60x25+$((mx - 240))+$((my + 20)) -c FGN -C "#222D31@4" -e 'nmtui-connect'
+	kill $pid1 && kill $pid2 || st -t statusutil_nm -c float -g 82x25+$((mx - 328))+$((my + 20)) -c float -e nmtui
 }
 
 click() {

@@ -1,11 +1,11 @@
 #! /bin/bash
 # DATE 获取日期和时间的脚本
 
-tempfile=$(cd $(dirname $0);cd ..;pwd)/temp
+tempfile=/tmp/dwm
 
 this=_date
-icon_color="^c#4B005B^^b#7E51680x88^"
-text_color="^c#4B005B^^b#7E51680x99^"
+icon_color="^c#bd93f9^^b#3333330xc0^"
+text_color="^c#bd93f9^^b#3333330xc0^"
 signal=$(echo "^s$this^" | sed 's/_//')
 
 update() {
@@ -26,7 +26,7 @@ update() {
     esac
 
     icon=" $time_icon "
-    text=" $time_text "
+    text=" $time_text丨"
 
     sed -i '/^export '$this'=.*$/d' $tempfile
     printf "export %s='%s%s%s%s%s'\n" $this "$signal" "$icon_color" "$icon" "$text_color" "$text" >> $tempfile

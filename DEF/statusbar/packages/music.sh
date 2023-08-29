@@ -1,30 +1,38 @@
 #! /bin/bash
 # music 脚本
 
-tempfile=$(cd $(dirname $0);cd ..;pwd)/temp
+tempfile=/tmp/dwm
 
 this=_music
-icon_color="^c#3B102B^^b#6873790x88^"
-text_color="^c#3B102B^^b#6873790x99^"
+icon_color="^c#bd93f9^^b#3333330xc0^"
+text_color="^c#bd93f9^^b#3333330xc0^"
 signal=$(echo "^s$this^" | sed 's/_//')
 
 [ ! "$(command -v mpc)" ] && echo command not found: mpc && return
 
 update() {
     music_text="$(mpc current)"
-    icon=" 󰝚 "
-    text=" $music_text "
-    [ "$(mpc status | grep "paused")" ] && icon=" 󰐎 "
+    icon="  "
+    text=" $music_text丨"
+    [ "$(mpc status | grep "paused")" ] && icon="  "
 
     sed -i '/^export '$this'=.*$/d' $tempfile
     [ ! "$music_text" ] && return
     printf "export %s='%s%s%s%s%s'\n" $this "$signal" "$icon_color" "$icon" "$text_color" "$text" >> $tempfile
 }
 
+call_client() {
+    pid1=`ps aux | grep 'st -t statusutil' | grep -v grep | awk '{print $2}'`
+	pid2=`ps aux | grep 'st -t statusutil_music' | grep -v grep | awk '{print $2}'`
+	mx=`xdotool getmouselocation --shell | grep X= | sed 's/X=//'`
+	my=`xdotool getmouselocation --shell | grep Y= | sed 's/Y=//'`
+	kill $pid1 && kill $pid2 || st -t statusutil_music -g 82x25+$((mx - 328))+$((my + 20)) -c float -e ncmpcpp
+}
+
 click() {
     case "$1" in
         L) mpc toggle ;;
-        R) mpc toggle ;;
+        R) call_client ;;
         U) mpc prev ;;
         D) mpc next ;;
     esac
